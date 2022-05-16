@@ -4,6 +4,8 @@
 // 메뉴를 출력하는 UI 함수
 int PrintUI()
 {
+	int a;
+	int b;
 	int nInput = 0;
 	// system("cls");
 	printf("===================================================\n");
