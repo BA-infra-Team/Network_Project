@@ -6,6 +6,8 @@ int PrintUI()
 {
 	int a;
 	int b;
+	int c;
+	int d;
 	int nInput = 0;
 	// system("cls");
 	printf("===================================================\n");
