@@ -8,15 +8,43 @@
 
 #define MAX_CLIENT 5
 #define BUF_SIZE 1024
-
+#define BUFFER_SIZE 4096
+#define BUFF_SIZE 100 
 void *t_function(void *data);
 
 int client_index = 0;
 
 int g_sockList[5];
 
+void childHandler(int signal)
+{
+	int status;
+	pid_t spid;
+	while((spid = waitpid(-1, &status, WNOHANH)) > 0)
+	{
+		printf("자식프로세스 wait한 결과 \n");
+		printf("===============================\n");
+		printf("PID        :%d\n", spid);
+		printf(Exit Value  :%d\n", WEXITSTATUS(status));
+		print("Exit Stat   :%d\n", WIFEXITED(status));
+
+	}
+}
+
 int main(int argc, char **argv)
 {
+	signal(SIGCHLD, (void *)childHandler);
+	struct  sockaddr_in server_addr;
+	memset(&server_addr, 0, sizeof(server_addr));
+
+	int listenFD = socket(AF_INET, SOCK_STREAM, 0);
+	int connectFD;
+
+	ssize_t receivedBytes;
+	char readBuff[BUFFER_SIZE];   
+	char sendBuff[BUFFER_SIZE];
+	pid_t pid;
+
         if (argc != 2)
         {
                 printf("Usage : %s [port]\n", argv[0]);
